@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/gpierce/projects/near-app/helloworld/contract/target/wasm32-unknown-unknown/release/build/typenum-ad08ba8982e75851/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/gpierce/projects/near-app/helloworld/contract/target/wasm32-unknown-unknown/release/build/typenum-ad08ba8982e75851/out/op.rs

@@ -97,7 +97,6 @@ export default function App() {
             });
             console.log(response);
 
-            this.setState({greeting: response});
           } catch (e) {
             alert(
               'Something went wrong! ' +

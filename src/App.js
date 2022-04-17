@@ -8,7 +8,7 @@ const { networkId } = getConfig(process.env.NODE_ENV || 'development')
 
 export default function App() {
   // use React Hooks to store greeting in component state
-  const [greeting, set_greeting] = React.useState()
+  const [greeting, say_hello] = React.useState()
 
   // when the user has not yet interacted with the form, disable the button
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -24,10 +24,10 @@ export default function App() {
       if (window.walletConnection.isSignedIn()) {
 
         // window.contract is set by initContract in index.js
-        window.contract.get_greeting({ account_id: window.accountId })
-          .then(greetingFromContract => {
-            set_greeting(greetingFromContract)
-          })
+        // window.contract.say_hello({ name: "New Person" })
+        //   .then(greetingFromContract => {
+        //     set_greeting(greetingFromContract)
+        //   })
       }
     },
 
@@ -44,14 +44,10 @@ export default function App() {
         <h1>Welcome to NEAR!</h1>
         <p>
           To make use of the NEAR blockchain, you need to sign in. The button
-          below will sign you in using NEAR Wallet.
+          below will sign you in using NEAR Wallet. If you don't have a NEAR wallet
+          go to https://wallet.near.org and create one.
         </p>
-        <p>
-          By default, when your app runs in "development" mode, it connects
-          to a test network ("testnet") wallet. This works just like the main
-          network ("mainnet") wallet, but the NEAR Tokens on testnet aren't
-          convertible to other currencies – they're just for testing!
-        </p>
+
         <p>
           Go ahead and click the button below to try it out:
         </p>
@@ -80,7 +76,6 @@ export default function App() {
             {greeting}
           </label>
           {' '/* React trims whitespace around tags; insert literal space character when needed */}
-          {window.accountId}!
         </h1>
         <form onSubmit={async event => {
           event.preventDefault()
@@ -96,9 +91,9 @@ export default function App() {
 
           try {
             // make an update call to the smart contract
-            await window.contract.set_greeting({
-              // pass the value that the user entered in the greeting field
-              message: newGreeting
+            await window.contract.say_hello({
+              // pass the value that the user entered in the name field
+              name: newGreeting
             })
           } catch (e) {
             alert(
@@ -113,7 +108,7 @@ export default function App() {
           }
 
           // update local `greeting` variable to match persisted value
-          set_greeting(newGreeting)
+          say_hello(newGreeting)
 
           // show Notification
           setShowNotification(true)
@@ -133,7 +128,7 @@ export default function App() {
                 marginBottom: '0.5em'
               }}
             >
-              Change greeting
+              Who are you?
             </label>
             <div style={{ display: 'flex' }}>
               <input
@@ -152,22 +147,6 @@ export default function App() {
             </div>
           </fieldset>
         </form>
-        <p>
-          Look at that! A Hello World app! This greeting is stored on the NEAR blockchain. Check it out:
-        </p>
-        <ol>
-          <li>
-            Look in <code>src/App.js</code> and <code>src/utils.js</code> – you'll see <code>get_greeting</code> and <code>set_greeting</code> being called on <code>contract</code>. What's this?
-          </li>
-          <li>
-            Ultimately, this <code>contract</code> code is defined in <code>assembly/main.ts</code> – this is the source code for your <a target="_blank" rel="noreferrer" href="https://docs.near.org/docs/develop/contracts/overview">smart contract</a>.</li>
-          <li>
-            When you run <code>yarn dev</code>, the code in <code>assembly/main.ts</code> gets deployed to the NEAR testnet. You can see how this happens by looking in <code>package.json</code> at the <code>scripts</code> section to find the <code>dev</code> command.</li>
-        </ol>
-        <hr />
-        <p>
-          To keep learning, check out <a target="_blank" rel="noreferrer" href="https://docs.near.org">the NEAR docs</a> or look through some <a target="_blank" rel="noreferrer" href="https://examples.near.org">example apps</a>.
-        </p>
       </main>
       {showNotification && <Notification />}
     </>
@@ -183,7 +162,7 @@ function Notification() {
         {window.accountId}
       </a>
       {' '/* React trims whitespace around tags; insert literal space character when needed */}
-      called method: 'set_greeting' in contract:
+      called method: 'say_hello' in contract:
       {' '}
       <a target="_blank" rel="noreferrer" href={`${urlPrefix}/${window.contract.contractId}`}>
         {window.contract.contractId}

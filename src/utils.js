@@ -1,7 +1,9 @@
 import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
 import getConfig from './config'
 
-const nearConfig = getConfig(process.env.NODE_ENV || 'development')
+//const nearConfig = getConfig(process.env.NODE_ENV || 'development')
+const nearConfig = getConfig('development')
+
 
 // Initialize contract & set global variables
 export async function initContract() {
@@ -17,10 +19,7 @@ export async function initContract() {
 
   // Initializing our contract APIs by contract name and configuration
   window.contract = await new Contract(window.walletConnection.account(), nearConfig.contractName, {
-    // View methods are read only. They don't modify the state, but usually return some value.
-    viewMethods: ['get_greeting'],
-    // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ['set_greeting'],
+     changeMethods: ['say_hello'],
   })
 }
 

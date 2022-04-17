@@ -73,7 +73,7 @@ export default function App() {
               borderBottom: '2px solid var(--secondary)'
             }}
           >
-            {greeting}
+            Hello {greeting}
           </label>
           {' '/* React trims whitespace around tags; insert literal space character when needed */}
         </h1>
@@ -91,10 +91,13 @@ export default function App() {
 
           try {
             // make an update call to the smart contract
-            await window.contract.say_hello({
+            const response = await window.contract.say_hello({
               // pass the value that the user entered in the name field
               name: newGreeting
-            })
+            });
+            console.log(response);
+
+            this.setState({greeting: response});
           } catch (e) {
             alert(
               'Something went wrong! ' +
@@ -142,7 +145,7 @@ export default function App() {
                 disabled={buttonDisabled}
                 style={{ borderRadius: '0 5px 5px 0' }}
               >
-                Save
+                Send
               </button>
             </div>
           </fieldset>
